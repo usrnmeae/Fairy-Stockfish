@@ -915,7 +915,9 @@ namespace {
         // Put squares that are attacked or occupied on hold for one iteration.
         for (int dist = 0; (ctfPieces || onHold || onHold2) && (ctfTargets & ~processed); dist++)
         {
-            score += make_score(2500, 2500) * popcount(ctfTargets & ctfPieces) / (1 + dist * dist);
+            int wins = popcount(ctfTargets & ctfPieces);
+            if (wins)
+                score += make_score(4000, 4000) * wins / (wins + dist * dist);
             Bitboard current = ctfPieces;
             processed |= ctfPieces;
             ctfPieces = onHold & ~processed;
