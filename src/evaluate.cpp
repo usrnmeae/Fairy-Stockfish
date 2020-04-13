@@ -939,7 +939,7 @@ namespace {
             {
                 int denom = std::max(pos.count(Us, pt) - pos.extinction_piece_count(), 1);
                 if (pos.count(Them, pt) >= pos.extinction_opponent_piece_count() || pos.two_boards())
-                    score += make_score(1000000 / (500 + PieceValue[MG][pt]),
+                    score += make_score(1000000 / (450 + PieceValue[MG][pt]),
                                         1000000 / (500 + PieceValue[EG][pt])) / (denom * denom)
                             * (pos.extinction_value() / VALUE_MATE);
             }
