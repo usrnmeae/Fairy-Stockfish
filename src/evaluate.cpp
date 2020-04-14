@@ -327,6 +327,9 @@ namespace {
         else
             mobility[Us] += MaxMobility * (mob - 1) / (8 + mob);
 
+        if (pos.must_capture())
+            continue;
+
         // Piece promotion bonus
         if (pos.promoted_piece_type(Pt) != NO_PIECE_TYPE)
         {
