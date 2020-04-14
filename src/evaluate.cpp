@@ -912,21 +912,21 @@ namespace {
         Bitboard processed = 0;
         // Traverse all paths of the CTF pieces to the CTF targets.
         // Put squares that are attacked or occupied on hold for one iteration.
-        for (int dist = 0; ctfPieces && (ctfTargets & ~processed); dist++)
+        for (int dist = 1; ctfPieces; dist++)
         {
-            score += make_score(2500, 2500) * popcount(ctfTargets & ctfPieces) / (1 + dist * dist);
-            Bitboard current = ctfPieces;
-            processed |= ctfPieces;
-            ctfPieces = onHold & ~processed;
-            onHold = 0;
-            while (current)
+            Bitboard next = 0;
+            while (ctfPieces)
             {
-                Square s = pop_lsb(&current);
-                Bitboard attacks = (  (PseudoAttacks[Us][ptCtf][s] & pos.pieces())
-                                    | (PseudoMoves[Us][ptCtf][s] & ~pos.pieces())) & ~processed & pos.board_bb();
-                ctfPieces |= attacks & ~pos.pieces(Us) & ~attackedBy[Them][ALL_PIECES];
-                onHold |= attacks;
+                Square s = pop_lsb(&ctfPieces);
+                next |=  (PseudoAttacks[Us][ptCtf][s] & pos.pieces())
+                       | (PseudoMoves[Us][ptCtf][s] & ~pos.pieces());
             }
+            next &= ~processed & pos.board_bb();
+            ctfPieces = (next & ~pos.pieces(Us) & ~attackedBy[Them][ALL_PIECES]) | onHold;
+            score += make_score(2500, 2500) * popcount(ctfPieces & ctfTargets) / (1 + dist * dist);
+            onHold = next & ~ctfPieces;
+            processed |= ctfPieces;
+            ctfPieces &= ~ctfTargets;
         }
     }
 
