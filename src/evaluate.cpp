@@ -318,7 +318,11 @@ namespace {
         }
 
         if (Pt > QUEEN)
-             b = (b & pos.pieces()) | (pos.moves_from(Us, Pt, s) & ~pos.pieces() & pos.board_bb());
+        {
+            b = (b & pos.pieces()) | (pos.moves_from(Us, Pt, s) & ~pos.pieces() & pos.board_bb());
+            if (pos.blockers_for_king(Us) & s)
+                b &= LineBB[pos.square<KING>(Us)][s];
+        }
 
         int mob = popcount(b & mobilityArea[Us]);
 
