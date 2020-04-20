@@ -121,7 +121,8 @@ public:
   File castling_kingside_file() const;
   File castling_queenside_file() const;
   Rank castling_rank(Color c) const;
-  PieceType castling_rook_piece() const;
+  PieceType castling_rook_piece_k() const;
+  PieceType castling_rook_piece_q() const;
   PieceType king_type() const;
   bool checking_permitted() const;
   bool drop_checks() const;
