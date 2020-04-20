@@ -451,7 +451,12 @@ inline Rank Position::castling_rank(Color c) const {
   return relative_rank(c, var->castlingRank, max_rank());
 }
 
-inline PieceType Position::castling_rook_piece() const {
+inline PieceType Position::castling_rook_piece_k() const {
+  assert(var != nullptr);
+  return var->castlingRookPiece;
+}
+
+inline PieceType Position::castling_rook_piece_q() const {
   assert(var != nullptr);
   return var->castlingRookPiece;
 }
